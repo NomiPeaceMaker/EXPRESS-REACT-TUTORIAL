@@ -2,6 +2,7 @@ const express = require('express');
 const Task = require('../models/Task');
 const verifyToken = require('../middleware/auth')
 const router = express.Router();
+const secretKey = process.env.JWT_SECRET;
 
 router.post('/', verifyToken, async (req, res) => {
   console.log('Task model:', Task); // Debugging log

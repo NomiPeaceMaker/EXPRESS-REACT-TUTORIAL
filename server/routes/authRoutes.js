@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const verifyToken = require('../middleware/auth')
-// import { secretKey } from '../middleware/auth';
+const secretKey = process.env.JWT_SECRET;
 
 const router = express.Router();
 
