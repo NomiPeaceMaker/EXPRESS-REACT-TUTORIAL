@@ -22,6 +22,7 @@ const verifyToken = (req, res, next) => {
     // Verify the token
     const decoded = jwt.verify(token, secretKey);
     req.user = decoded; // Attach decoded payload to the request object
+    console.log(req.user)
     next(); // Move to the next middleware/route handler
   } catch (error) {
     return res.status(403).json({ error: 'Access Denied: Invalid Token' });

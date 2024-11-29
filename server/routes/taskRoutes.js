@@ -19,21 +19,22 @@ router.post('/', verifyToken, async (req, res) => {
 });
 
 router.get('/:userId', verifyToken, async (req, res) => {
-    console.log('Request params:', req.params); // Debugging
-    const { userId } = req.params;
-  
-    if (!userId) {
-      return res.status(400).json({ error: 'userId is required' });
-    }
-  
-    try {
-      const tasks = await Task.query().where('user_id', userId);
-      res.json(tasks);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Failed to fetch tasks' });
-    }
-  });
+  const { userId } = req.params;
+  console.log(req.user.id)
+
+  // Validate that the userId in the route matches the userId in the token
+  if (parseInt(userId, 10) !== req.user.id) {
+    return res.status(403).json({ error: 'Access Denied: Unauthorized Access' });
+  }
+
+  try {
+    const tasks = await Task.query().where('user_id', userId);
+    res.json(tasks);
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    res.status(500).json({ error: 'Failed to fetch tasks' });
+  }
+});
 
 router.put('/:taskId', verifyToken, async (req, res) => {
     const { title, description } = req.body;
