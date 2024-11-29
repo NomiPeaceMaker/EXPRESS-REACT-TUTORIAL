@@ -1,9 +1,10 @@
-// const jwt = require('jsonwebtoken');
-// const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+
 
 // Generate a 256-bit (32-byte) key
-export const secretKey = crypto.randomBytes(32).toString('hex');
-console.log('Generated Secret Key:', secretKey);
+// const secretKey = crypto.randomBytes(32).toString('hex');
+const secretKey = process.env.JWT_SECRET;
 
 // Middleware function to verify JWT
 const verifyToken = (req, res, next) => {
