@@ -19,6 +19,7 @@ const store = configureStore({
     auth: persistedAuthReducer, // Auth state with persistence
     tasks: tasksReducer, // Regular tasks state
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export const persistor = persistStore(store); // Export persistor for PersistGate

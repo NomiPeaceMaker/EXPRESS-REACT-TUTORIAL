@@ -2,10 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice';
+import { setTasks } from '../redux/tasksSlice';
 
 const Home = () => {
     const dispatch = useDispatch();
     dispatch(logout()); // Clear auth state
+    console.log("setting tasks to []")
+    dispatch(setTasks([]))
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h1>Welcome to the Task Manager</h1>
