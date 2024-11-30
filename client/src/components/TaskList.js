@@ -25,17 +25,31 @@ function TaskList() {
   }, [dispatch]);
 
   return (
-    <div>
-      <h2>Your Tasks</h2>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>{task.title}</li>
-        ))}
-      </ul>
-      <AddTask />
-      <Link to="/">
-        <button style={{ margin: '10px', padding: '10px 20px', fontSize: '16px' }}>Logout</button>
-      </Link>
+    <div className="container mt-5">
+      <div className="card shadow">
+        <div className="card-header bg-primary text-white text-center">
+          <h2>Your Tasks</h2>
+        </div>
+        <div className="card-body">
+          {tasks.length > 0 ? (
+            <ul className="list-group">
+              {tasks.map((task) => (
+                <li key={task.id} className="list-group-item">
+                  {task.title}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center text-muted">No tasks available. Add a new task!</p>
+          )}
+        </div>
+        <div className="card-footer text-center">
+          <AddTask />
+          <Link to="/" className="btn btn-danger mt-3">
+            Logout
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
