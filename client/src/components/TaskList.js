@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/api';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import AddTask from './AddTask';
+import { setTasks } from '../redux/tasksSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function TaskList() {
-  const [tasks, setTasks] = useState([]);
+
+  const tasks = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
   let userId = localStorage.getItem('userId')
-  console.log(localStorage)
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     console.log(token)
@@ -15,9 +19,12 @@ function TaskList() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => setTasks(response.data))
+      .then((response) => {
+        dispatch(setTasks(response.data))
+      })
       .catch((error) => console.error('Error fetching tasks:', error));
-  }, [userId]);
+    console.log(tasks)
+  }, [dispatch]);
 
   return (
     <div>
@@ -27,6 +34,7 @@ function TaskList() {
           <li key={task.id}>{task.title}</li>
         ))}
       </ul>
+      <AddTask />
       <Link to="/">
         <button style={{ margin: '10px', padding: '10px 20px', fontSize: '16px' }}>Logout</button>
       </Link>
