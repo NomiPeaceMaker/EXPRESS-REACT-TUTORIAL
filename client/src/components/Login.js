@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/authSlice';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {
@@ -14,8 +17,7 @@ function Login() {
 
       // Save userId and token in localStorage
       const { userId, token } = response.data;
-      localStorage.setItem('userId', userId);
-      localStorage.setItem('token', token);
+      dispatch(login({ userId, token })); // Dispatch login action
 
       console.log('Login successful:', userId, token);
 

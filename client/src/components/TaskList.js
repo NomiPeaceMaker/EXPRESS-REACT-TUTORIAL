@@ -9,11 +9,9 @@ function TaskList() {
 
   const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
-  let userId = localStorage.getItem('userId')
+  const { userId, token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    console.log(token)
     api.get(`/tasks/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,

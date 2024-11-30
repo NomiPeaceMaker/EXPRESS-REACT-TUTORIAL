@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/authSlice';
 
 const Home = () => {
+    const dispatch = useDispatch();
+    dispatch(logout()); // Clear auth state
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h1>Welcome to the Task Manager</h1>

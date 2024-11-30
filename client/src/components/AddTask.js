@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { addTask } from '../redux/tasksSlice';
 
@@ -9,15 +9,11 @@ function AddTask() {
     const [description, setDescription] = useState('');
     const [message, setMessage] = useState('');
     const dispatch = useDispatch();
+    const { userId, token } = useSelector((state) => state.auth);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Retrieve the token from local storage
-        const userId = localStorage.getItem('userId');
-        const token = localStorage.getItem('token');
-
         try {
             const response = await axios.post(
                 'http://localhost:5000/tasks',

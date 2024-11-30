@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import api from '../api/api';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/authSlice';
 
 function Register() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const dispatch = useDispatch();
 
   const handleRegister = async () => {
     try {
@@ -16,8 +19,7 @@ function Register() {
       console.log(response.data)
       
       const { userId, token } = response.data;
-      localStorage.setItem('userId', userId);
-      localStorage.setItem('token', token);
+      dispatch(login({ userId, token })); // Dispatch login action
       navigate('/tasks')
     } catch (error) {
       console.error('Error during registration:', error.response?.data || error.message);
