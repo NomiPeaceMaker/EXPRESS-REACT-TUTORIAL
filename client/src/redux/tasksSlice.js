@@ -11,8 +11,11 @@ const tasksSlice = createSlice({
             console.log("Add Task working!")
             state.push(action.payload);
         },
+        removeTask: (state, action) => {
+            return state.filter((task) => task.id !== action.payload); // Filter out the task by id
+          },
     },
 });
 
-export const { setTasks, addTask } = tasksSlice.actions;
+export const { setTasks, addTask, removeTask } = tasksSlice.actions;
 export default tasksSlice.reducer;

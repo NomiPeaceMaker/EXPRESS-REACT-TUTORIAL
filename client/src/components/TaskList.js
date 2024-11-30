@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import api from '../api/api';
 import { Link } from 'react-router-dom';
 import AddTask from './AddTask';
-import { setTasks } from '../redux/tasksSlice';
+import { setTasks, removeTask } from '../redux/tasksSlice';
 import { useDispatch, useSelector } from 'react-redux';
+
+
 
 function TaskList() {
 
@@ -21,8 +23,22 @@ function TaskList() {
         dispatch(setTasks(response.data))
       })
       .catch((error) => console.error('Error fetching tasks:', error));
-    console.log(tasks)
+    // console.log(tasks)
   }, [dispatch]);
+
+  const handleDeleteTask = (taskId) => {
+    api.delete(`/tasks/${taskId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        dispatch(removeTask(taskId))
+        // console.log("After delete request: ", response)
+      })
+      .catch((error) => console.error('Error deleting taskk:', error));
+
+  }
 
   return (
     <div className="container mt-5">
@@ -34,8 +50,17 @@ function TaskList() {
           {tasks.length > 0 ? (
             <ul className="list-group">
               {tasks.map((task) => (
-                <li key={task.id} className="list-group-item">
-                  {task.title}
+                <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>{task.title}</strong> {/* Bold title */}
+                    <div className="text-muted">{task.description}</div> {/* Description styled as muted text */}
+                  </div>
+                  <button
+                    className="btn btn-danger btn-sm" // Small button styled with Bootstrap
+                    onClick={() => handleDeleteTask(task.id)}
+                  >
+                    Delete
+                  </button>
                 </li>
               ))}
             </ul>
